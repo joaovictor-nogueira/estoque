@@ -1,0 +1,85 @@
+{% extends "dashboard.html" %}
+
+{% block conteudo %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{{url('dashboard')}}">
+                Dashboard
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{{url('dashboard/itens/listar')}}">
+                Estoque
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{{url('dashboard/item/'~item)}}">
+                {{item}}
+            </a>
+
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{{url('dashboard/item/'~item~'/movimentacoes')}}">
+                Movimentações
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            Detalhes
+        </li>
+    </ol>
+</nav>
+
+
+{{ flash() }}
+
+<div class="row justify-content-center">
+    <div class="col-xl-6 col-xxl-6 mb-4 d-flex align-items-center justify-content-center">
+        <div class="w-100">
+            <div class="row">
+                <!-- total visitas -->
+                <div class="col-sm-12 ">
+                    <div class="card border-0 shadow-sm mb-3 mt-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="fw-bold text-secondary text-center">Detalhes</h5>
+                                </div>
+                            </div>
+
+                            {% if movimentacao.tipo == 'entrada' %}
+                            <div class="text-center">
+                                <p><i class="fa-solid fa-boxes-packing" style="color: #63E6BE;"></i> Entrada</p>
+                                <p class="text-secondary">{{movimentacao.data|date('d/m/Y')}} às {{movimentacao.data|date('H:i')}}</p>
+                            </div>
+                            <hr>
+                            <p><strong>Unidades:</strong> {{movimentacao.quantidade_mov}} </p>
+                            <p><strong>Responsável:</strong> {{usuarioResp.nome}}</p> 
+
+                            {% elseif movimentacao.tipo == 'saida' %}
+                            <div class="text-center">
+                                <p><i class="fa-solid fa-boxes-packing fa-rotate-180" style="color: #ff0000;"></i> Saída
+                                </p>
+                            </div>
+                            <hr>
+                            <p><strong>Unidades:</strong> {{movimentacao.quantidade_mov}} </p>
+                            <p><strong>Entregador:</strong> {{usuarioEntre.nome}}</p> 
+                            <p><strong>Retirante:</strong> {{usuarioReti.nome}}</p> 
+                            
+
+                            {%endif%}
+
+                            <hr>
+                            <p><strong>Descrição:</strong> {{movimentacao.descricao}}</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

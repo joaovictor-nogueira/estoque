@@ -1,0 +1,7 @@
+body {
+    background-image: url(../../../assets/img/fundo-login.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed; /* Isso pode ser removido se você não quiser que a imagem fique fixa durante o scroll */
+}

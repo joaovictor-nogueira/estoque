@@ -1,0 +1,74 @@
+{% extends "dashboard.html" %}
+
+{% block conteudo %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{{url('dashboard')}}">
+                Dashboard
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{{url('dashboard/itens/listar')}}">
+                Estoque
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{{url('dashboard/item/'~item)}}">
+                {{item}}
+            </a>
+
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            Movimentações
+        </li>
+    </ol>
+</nav>
+
+
+{{ flash() }}
+
+<div class="card border-0 shadow-sm">
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="tabelaMovimentacoes" class="table table-hover table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>tipo</th>
+                        <th class="text-center">Unidades</th>
+                        <th class="text-center">Data</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for movimentacao in movimentacoes %}
+                    <tr>
+                        <td><a href="{{url('dashboard/item/'~item~'/movimentacoes/'~movimentacao.id)}}"><i class="fa-solid fa-eye"></i></a></td>
+                        <td>
+                            {% if movimentacao.tipo == 'entrada' %}
+                            <i class="fa-solid fa-boxes-packing" style="color: #63E6BE;"></i> Entrada
+                            {% elseif movimentacao.tipo == 'saida' %}
+                            <i class="fa-solid fa-boxes-packing fa-rotate-180" style="color: #ff0000;"></i> Saída
+                            {% endif %}
+                        </td>
+                        <td class="text-center">{{movimentacao.quantidade_mov}}</td>
+                        <td class="text-center">{{movimentacao.data|date('d/m/Y')}} às {{movimentacao.data|date('H:i')}}</td>
+
+
+                        {% endfor %}
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+
+{% endblock %}

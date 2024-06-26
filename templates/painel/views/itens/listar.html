@@ -1,0 +1,126 @@
+{% extends "dashboard.html" %}
+
+{% block conteudo %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{{url('dashboard')}}">
+                Dashboard
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            Estoque
+        </li>
+    </ol>
+</nav>
+
+{{ flash() }}
+
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-light border d-flex justify-content-between align-items-center">
+        <div>
+            <span class="badge bg-white text-secondary border">
+                <span class="text-dark">{{total.estoques}} Itens</span><br><br>
+                Ativo: <span class="text-success">{{total.estoquesAtivo}}</span> |
+                Inativo: <span class="text-danger">{{total.estoqueInativo}}</span>
+            </span>
+
+         
+        </div>
+        <a href="{{url('dashboard/itens/cadastrar')}}" class="btn btn-dark" tooltip="tooltip" title="Cadastrar Itens">
+            Cadastrar
+        </a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="tabelaItens" class="table table-hover table-striped" style="width:100%">
+                <thead>
+                    <tr>
+
+                        <th>Capa</th>
+                        <th>Nome</th>
+                        <th>quantidade</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in itens %}
+                    <tr> 
+
+                        <td>
+                            {% if item.capa %}
+                            <div class="float-xl-start float-lg-none capa mx-auto">
+                                <div class="card border-0">
+                                    <a data-fancybox data-caption="{{item.nome}}" class="overflow zoom "
+                                        href="{{url('uploads/imagens/thumbs/'~item.capa)}}">
+                                        <img class="capa" height="80px" src="{{url('uploads/imagens/'~item.capa)}}" />
+                                    </a>
+                                </div>
+                            </div>
+                            {% else %}
+                            <img src="{{url('templates/assets/img/sem-foto.jpg')}}" class="capa" />
+                            {% endif %}
+                        </td>
+                        <td><a href="{{url('dashboard/item/'~item.slug)}}" class="fw-bold link-underline-dark">{{item.nome}}</a></td>
+                        <td>{{item.quantidade}}</td>
+                       
+                        
+                        <td>
+                            {% if item.status == 1 %}
+                            <i class="fa-solid fa-circle text-success" tooltip="tooltip" title="Ativo"></i>
+                            {% else %}
+                            <i class="fa-solid fa-circle text-danger" tooltip="tooltip" title="Inativo"></i>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            
+                            <a class="text-dark m-1" href="{{ url('dashboard/itens/editar/'~item.id)}}"
+                                tooltip="tooltip" title="Editar"><i class="fa-solid fa-pen"></i></a>
+
+
+                            <a class="text-dark" href="{{ url('dashboard/itens/deletar/'~item.id)}}"
+                                tooltip="tooltip" title="Deletar"><i class="fa-solid fa-trash"></i>
+                            </a>
+                            
+                        </td>
+
+
+                        
+
+                        {% endfor %}
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+
+    </div>
+</div>
+
+
+<!-- MODAL DE EXCLUSÃO -->
+
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Exclusão</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Tem certeza de que deseja excluir este item?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" id="confirmDeleteButton">Excluir</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

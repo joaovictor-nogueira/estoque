@@ -1,0 +1,44 @@
+<input type="checkbox" id="menu">
+<div class="sidebar">
+    <div class="sidebarLogo">
+        <a href="{{url('dashboard')}}" tooltip="tooltip" title="Dashboard">
+            <div class="logo">
+                <img src="{{url('templates/assets/img/logo.png')}}" alt=" {{constant('SITE_NOME')}}"/>
+            </div>
+        </a>
+    </div>
+
+    <div class="sidebarMenu">
+        <ul>
+            <li class="sidebarTitulo text-center">
+                Administração
+            </li> 
+            <li>
+                <a href="{{url('dashboard/itens/listar')}}" tooltip="tooltip" title="Estoque">
+                    <i class="fa-solid fa-box-open fa-rotate-by"></i>
+                    <span>Estoque</span>
+                </a>
+            </li>  
+            
+            <li>
+                <a href="{{url('dashboard/movimentacoes/listar')}}" tooltip="tooltip" title="Movimentações">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Todas Movimentações</span>
+                </a>
+            </li> 
+            <li>
+                <a href="{{url('dashboard/usuarios/listar')}}" tooltip="tooltip" title="Usuários">
+                    <i class="fas fa-users"></i> 
+                    <span>Usuários</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{url('dashboard/compras/')}}" tooltip="tooltip" title="Compras">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span>Sugestão Compras</span>
+                </a>
+            </li> 
+        </ul>
+    </div>
+    
+</div>

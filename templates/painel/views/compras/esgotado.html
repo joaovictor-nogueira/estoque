@@ -1,0 +1,80 @@
+{% extends "dashboard.html" %}
+
+{% block conteudo %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{{url('dashboard')}}">
+                Dashboard
+            </a>
+        </li>
+        <li class="breadcrumb-item ">
+           <a href="{{url('dashboard/compras')}}">
+                Estoque
+           </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            Esgotado
+        </li>
+    </ol>
+</nav>
+
+{{ flash() }}
+
+<div class="card border-0 shadow-sm">
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="tabelaAcabando" class="table table-hover table-striped" style="width:100%">
+                <thead>
+                    <tr>
+
+                        <th>#</th>
+                        <th>Capa</th>
+                        <th>Nome</th>
+                        <th>quantidade</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in itens.acabado %}
+                    <tr> 
+                        <td><a href="{{url('dashboard/item/'~item.slug)}}"><i class="fa-solid fa-eye"></i></a></td>
+                        <td>
+                            {% if item.capa %}
+                            <div class="float-xl-start float-lg-none capa mx-auto">
+                                <div class="card border-0">
+                                    <a data-fancybox data-caption="{{item.nome}}" class="overflow zoom "
+                                        href="{{url('uploads/imagens/thumbs/'~item.capa)}}">
+                                        <img class="capa" height="80px" src="{{url('uploads/imagens/'~item.capa)}}" />
+                                    </a>
+                                </div>
+                            </div>
+                            {% else %}
+                            <img src="{{url('templates/assets/img/sem-foto.jpg')}}" class="capa" />
+                            {% endif %}
+                        </td>
+                        <td><a href="{{url('dashboard/item/'~item.slug)}}" class="fw-bold link-underline-dark">{{item.nome}}</a></td>
+                        <td>{{item.quantidade}}</td>
+                       
+                        
+                     
+
+
+                        
+
+                        {% endfor %}
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+
+{% endblock %}

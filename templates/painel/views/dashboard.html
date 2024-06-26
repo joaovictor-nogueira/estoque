@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block corpo %}
+
+{% include 'menu.html' %}
+
+<div class="conteudo">
+    {% include 'topo.html' %}
+    <main>
+        {% block conteudo %}
+        <h5 class="mb-3">Dashboard <small class="saudacao text-muted"> - {{saudacao()}}, {{usuario().nome}}. Seu último
+                login foi em {{usuario().ultimo_login |date('d/m/Y')}} às {{usuario().ultimo_login
+                |date('H:i')}}</small></h5>
+
+
+        {{ flash() }}
+
+        <div class="row">
+            <div class="col-xl-6 col-xxl-6 mb-4 d-flex">
+                <div class="w-100">
+                    <div class="row">
+
+                        
+                        <div class="col-sm-12">
+                            <div class="card border-0 shadow-sm mb-3">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h6 class="fw-bold text-secondary">Alerta - Quase acabando</h6>
+                                        </div>
+                                        <div class="col-auto text-secondary">
+                                            <i class="fa-solid fa-triangle-exclamation"></i>
+                                        </div>
+                                    </div>
+                                    {% if itens.acabando %}
+                                        {%for item in itens.acabando%}
+                                        <div class="alert alert-warning" role="alert">
+                                            <strong>{{item.nome}}</strong> está apenas com {{item.quantidade}} unidades
+                                            sobrando - <a href="{{url('dashboard/item/'~item.slug)}}" class="alert-link">Ver</a>
+                                        </div>
+                                        {%endfor%}
+                                    {% else %}
+                                    <div class="alert alert-primary" role="alert">
+                                        No momento não existe nenhum item acabando!
+                                    </div>
+                                    {%endif%}
+                                    <hr>
+                                    <div class="text-center">
+                                        <a href="{{url('dashboard/compras/acabando')}}" class="link-primary">Veja todos...</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-xxl-6 mb-4 d-flex">
+                <div class="w-100">
+                    <div class="row">
+
+                        
+                        <div class="col-sm-12">
+                            <div class="card border-0 shadow-sm mb-3">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h6 class="fw-bold text-secondary">Alerta - Acabou</h6>
+                                        </div>
+                                        <div class="col-auto text-secondary">
+                                            <i class="fa-solid fa-triangle-exclamation"></i>
+                                        </div>
+                                    </div>
+                                    {% if itens.acabados %}
+                                        {% for item in itens.acabados %}
+                                        <div class="alert alert-danger" role="alert">
+                                            <strong>{{item.nome}}</strong> está com {{item.quantidade}} unidades sobrando -
+                                            <a href="{{url('dashboard/item/'~item.slug)}}" class="alert-link">Ver</a>
+                                        </div>
+                                        {% endfor %}
+                                    {% else %}
+                                    <div class="alert alert-primary" role="alert">
+                                        No momento não existe nenhum item acabado!
+                                    </div>
+                                    {%endif%}
+                                    <hr>
+                                    <div class="text-center">
+                                        <a href="{{url('dashboard/compras/esgotado')}}" class="link-primary">Veja todos...</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        {% endblock %}
+    </main>
+    {% include 'rodape.html' %}
+</div>
+
+
+{% endblock %}

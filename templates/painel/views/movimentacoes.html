@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block corpo %}
+
+{% include 'menu.html' %}
+
+<div class="conteudo">
+    {% include 'topo.html' %}
+    <main>
+        {% block conteudo %}
+        <h5 class="mb-3">Dashboard <small class="saudacao text-muted"> - {{saudacao()}}, {{usuario().nome}}. Seu último
+                login foi em {{usuario().ultimo_login |date('d/m/Y')}} às {{usuario().ultimo_login
+                |date('H:i')}}</small></h5>
+
+
+        {{ flash() }}
+
+
+        <div class="row">
+
+
+            <div class="col-sm-12">
+                <div class="card border-0 shadow-sm mb-3">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="tabelaTodasMovimentacoes" class="table table-hover table-striped" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>tipo</th>
+                                        <th>Item</th>
+                                        <th class="text-center">Unidades</th>
+                                        <th class="text-center">Data</th>
+                
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for movimentacao in movimentacoes %}
+                                    <tr>
+                                        <td><a href="{{url('dashboard/item/'~movimentacao.item_nome~'/movimentacoes/'~movimentacao.id)}}"><i class="fa-solid fa-eye"></i></a></td>
+                                        <td>
+                                            {% if movimentacao.tipo == 'entrada' %}
+                                            <i class="fa-solid fa-boxes-packing" style="color: #63E6BE;"></i> Entrada
+                                            {% elseif movimentacao.tipo == 'saida' %}
+                                            <i class="fa-solid fa-boxes-packing fa-rotate-180" style="color: #ff0000;"></i> Saída
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ movimentacao.item_nome }}</td>
+                                        <td class="text-center">{{movimentacao.quantidade_mov}}</td>
+                                        <td class="text-center">{{movimentacao.data|date('d/m/Y')}} às {{movimentacao.data|date('H:i')}}</td>
+                
+                
+                                        {% endfor %}
+                                    </tr>
+                                </tbody>
+                
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        {% endblock %}
+    </main>
+    {% include 'rodape.html' %}
+</div>
+
+
+{% endblock %}

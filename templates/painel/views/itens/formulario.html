@@ -1,0 +1,75 @@
+{% extends "dashboard.html" %}
+
+{% block conteudo %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{{url('dashboard')}}">
+                Dashboard
+            </a>
+        </li>
+         <li class="breadcrumb-item">
+            <a href="{{url('dashboard/itens/listar')}}">
+                Estoque
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            {% if item.id %}Atualizar{%else%}Cadastrar{%endif%}
+        </li>
+    </ol>
+</nav>
+
+{{ flash() }}
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body">
+        <form action="{% if item.id %}{{url('dashboard/itens/editar/'~item.id)}}{%else%}{{url('dashboard/itens/cadastrar')}}{%endif%}" method="post" enctype="multipart/form-data">
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-floating mb-3">
+                        <input type="text" name="nome" id="nome" value="{{item.nome}}" class="form-control" placeholder="Nome">
+                        <label for="nome">Nome</label>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group mb-4 text-center">
+                        
+                        <input type="file" name="capa" id="capa" value="{{item.capa}}" class="form-control" accept=".jpg, .jpeg, .png">
+                        <label for="capa">Extensões aceitas: .jpg / .png / .jpeg</label>
+                        
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-floating mb-3">
+                        <input type="number" name="quantidade" id="quantidade" value="{{item.quantidade}}" class="form-control" placeholder="">
+                        <label for="quantidade">Quantidade</label>
+                    </div> 
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-floating mb-3">
+                        <input type="number" name="quant_min" id="quant_min" value="{{item.quant_min}}" class="form-control" placeholder="">
+                        <label for="quant_min">Alerta Quantidade Minima</label>
+                    </div> 
+                </div>
+               
+                
+                <div class="col-sm-3">
+                    <div class="form-floating mb-3">
+                        <select class="form-select" name="status" id="status">
+                            <option value="1" {% if usuario.status == '1' %}selected{%endif%}>Ativo</option>
+                            <option value="0" {% if usuario.status == '0' %}selected{%endif%}>Inativo</option>
+                        </select>
+                        <label for="status">Status</label>
+                    </div> 
+                </div>
+            </div>
+
+            <div class="d-grid gap-2">
+                <input type="submit" class="btn btn-dark" value="{% if item.id %}Atualizar{%else%}Cadastrar{%endif%}">
+            </div>
+        </form>
+    </div>    
+</div>
+</div>
+{% endblock %}

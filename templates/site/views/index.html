@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block conteudo %}
+
+<!-- ================================= -->
+
+
+<div class="container col-xl-10 col-xxl-8 px-4 py-5 ">
+    <div class="row align-items-center g-lg-5 py-5 ">
+        <div class="col-md-10 mx-auto col-lg-5 ">
+            
+            <form class="p-4 p-md-5 border border-dark rounded-3 bg-light" action="{{url('login')}}" method="post">
+                <h2 class="text-center mb-3 fw-bold">{{constant('SITE_NOME')}}</h2>
+                {{flash()}}
+                <div class="form-floating mb-3">
+                    <input type="email" name="email" class="form-control" placeholder="E-mail">
+                    <label for="email">E-mail</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" name="senha" class="form-control" placeholder="Senha">
+                    <label for="senha">Senha</label>
+                </div>
+
+                <button class="w-100 btn btn-lg btn-primary" type="submit">Entrar</button>
+
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

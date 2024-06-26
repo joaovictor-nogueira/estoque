@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block corpo %}
+
+{% include 'menu.html' %}
+
+<div class="conteudo">
+
+    {% include 'topo.html' %}
+    <main>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{{url('dashboard')}}">
+                        Dashboard
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="{{url('dashboard/itens/listar')}}">
+                        Estoque
+                    </a>
+                </li>
+                <li class="breadcrumb-item" aria-current="page">
+                    <a href="{{url('dashboard/item/'~item)}}">
+                        {{item}}
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    Adicionar
+                </li>
+            </ol>
+        </nav>
+        {% block conteudo %}
+
+        {{ flash() }}
+
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <form
+                    action="{{url('dashboard/item/'~item~'/adicionar')}}"
+                    method="post">
+
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-floating mb-3 mt-4">
+                                <input type="number" name="quantidade_mov" id="quantidade_mov" class="form-control"
+                                    placeholder="quantidade_mov" min="0">
+                                <label for="quantidade_mov">Quantidade</label>
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-4">
+                            <div class=" mb-3">
+                                <div class="custom-select">
+                                    <label for="usuario_responsavel_id">Responsável</label>
+                                    <select class="form-select mb-3"  name="usuario_responsavel_id"
+                                        id="usuario_responsavel_id">
+                                        <option selected value="{{usuario().id}}">{{usuario().nome}}</option>
+
+                                        {% for usuario in usuarios %}
+                                            {% if usuario.id != usuario().id %}
+                                                <option value="{{usuario.id}}">{{usuario.nome}}</option>
+                                            {% endif %}
+                                        {%endfor%}
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-floating mb-3">
+                                <input type="text" maxlength="100" name="descricao" id="descricao" class="form-control"
+                                    placeholder="descricao">
+                                <label for="descricao">Descrição</label>
+                            </div>
+                        </div>
+
+
+                        <div class="d-grid gap-2">
+                            <input type="submit" class="btn btn-success" value="Adicionar">
+                        </div>
+                </form>
+            </div>
+        </div>
+
+        {% endblock %}
+    </main>
+    {% include 'rodape.html' %}
+</div>
+
+{% endblock %}
