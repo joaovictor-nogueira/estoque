@@ -1,8 +1,9 @@
-<?php 
+<?php
 
 namespace sistema\Controlador;
 
 use sistema\Modelo\ItensModelo;
+use sistema\Modelo\MovimentacaoModelo;
 use Verot\Upload\Upload;
 use sistema\Nucleo\Helpers;
 
@@ -25,7 +26,7 @@ class PainelItens extends PainelControlador
                 'estoques' => $itens->busca(null, 'COUNT(id)', 'id')->total(),
                 'estoquesAtivo' => $itens->busca('status = :s', 's=1 COUNT(status))', 'status')->total(),
                 'estoqueInativo' => $itens->busca('status = :s', 's=0 COUNT(status)', 'status')->total(),
-            ] 
+            ]
         ]);
     }
 
@@ -38,14 +39,14 @@ class PainelItens extends PainelControlador
             if ($this->validarDados($dados)) {
                 $item = new ItensModelo();
 
-                
+
                 $item->slug = Helpers::slug($dados['nome']);
                 $item->nome = $dados['nome'];
                 $item->capa = $this->capa ?? null;
                 $item->quantidade = $dados['quantidade'];
                 $item->quant_min = $dados['quant_min'];
                 $item->status = $dados['status'];
-   
+
 
 
                 if ($item->salvar()) {
@@ -79,7 +80,7 @@ class PainelItens extends PainelControlador
                 $item->quantidade = $dados['quantidade'];
                 $item->quant_min = $dados['quant_min'];
                 $item->status = $dados['status'];
- 
+
 
                 //atualizar a capa no DB e no servidor, se um novo arquivo de imagem for enviado
                 if (!empty($_FILES['capa']["name"])) {
@@ -88,7 +89,7 @@ class PainelItens extends PainelControlador
                         unlink("uploads/imagens/thumbs/{$item->capa}");
                     }
                     $item->capa = $this->capa ?? null;
-                }  
+                }
 
                 if ($item->salvar()) {
                     $this->mensagem->sucesso('Item atualizado com sucesso')->flash();
@@ -112,6 +113,10 @@ class PainelItens extends PainelControlador
 
         if (empty($dados['nome'])) {
             $this->mensagem->alerta('Escreva um nome para o item!')->flash();
+            return false;
+        }
+        if (empty($dados['quant_min'])) {
+            $this->mensagem->alerta('Escreva a quantidade para te avisar quando estiver acabando!')->flash();
             return false;
         }
 
@@ -152,7 +157,14 @@ class PainelItens extends PainelControlador
                 $this->mensagem->alerta('A Item que você está tentando deletar não existe!')->flash();
                 Helpers::redirecionar('dashboard/itens/listar');
             } else {
+
+
+
                 if ($item->deletar()) {
+
+                    // Deletar movimentações relacionadas ao item
+                    $movimentacaoModelo = new MovimentacaoModelo();
+                    $movimentacaoModelo->deletarPorItemId($id);
 
                     if ($item->capa && file_exists("uploads/imagens/{$item->capa}")) {
                         unlink("uploads/imagens/{$item->capa}");
@@ -168,12 +180,4 @@ class PainelItens extends PainelControlador
             }
         }
     }
-
-
-    
-
-    
 }
-
-
-?>

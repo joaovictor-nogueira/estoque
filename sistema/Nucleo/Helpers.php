@@ -7,9 +7,6 @@ use sistema\Nucleo\Sessao;
 
 /**
  * Classe Helper - Classe auxiliar responsável por prover métodos estáticos para manipular e validar dados no sistema.
- *
- * @author Ronaldo Aires <ceo@unset.com.br>
- * @copyright 2022 UnSet
  */
 class Helpers
 {

@@ -326,3 +326,41 @@ table.dataTable tbody td img {
 @media screen and (max-width: 576px) {
 
 }
+
+@media print {
+    .sidebar {
+        left: -100% !important;
+    }
+
+    .conteudo {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    header {
+        width: 100% !important;
+        left: 0 !important;
+    }
+
+    #menu:checked+.sidebar {
+        left: 0 !important;
+        z-index: 100;
+        width: 300px;
+    }
+
+    #menu:checked~.conteudo {
+        margin-left: 0 !important;
+    }
+
+    #menu:checked+.sidebar .sidebarLogo h2 span:last-child,
+    #menu:checked+.sidebar li a span:last-child {
+        display: inline;
+    }
+    #menu:checked+.sidebar .sidebarLogo{
+        display: block
+    }
+    #menu:checked+.sidebar .sidebarTitulo{
+        display: block
+    }
+
+}

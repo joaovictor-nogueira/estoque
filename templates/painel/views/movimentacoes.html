@@ -7,17 +7,11 @@
     {% include 'topo.html' %}
     <main>
         {% block conteudo %}
-        <h5 class="mb-3">Dashboard <small class="saudacao text-muted"> - {{saudacao()}}, {{usuario().nome}}. Seu último
-                login foi em {{usuario().ultimo_login |date('d/m/Y')}} às {{usuario().ultimo_login
-                |date('H:i')}}</small></h5>
+        <h5 class="mb-3">Dashboard <small class="saudacao text-muted"> - {{saudacao()}}, {{usuario().nome}}. Seu último login foi em {{usuario().ultimo_login |date('d/m/Y')}} às {{usuario().ultimo_login |date('H:i')}}</small></h5>
 
-
-        {{ flash() }}
-
+        {{ flash()}}
 
         <div class="row">
-
-
             <div class="col-sm-12">
                 <div class="card border-0 shadow-sm mb-3">
                     <div class="card-body">
@@ -26,11 +20,10 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>tipo</th>
+                                        <th>Tipo</th>
                                         <th>Item</th>
                                         <th class="text-center">Unidades</th>
                                         <th class="text-center">Data</th>
-                
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -47,27 +40,18 @@
                                         <td>{{ movimentacao.item_nome }}</td>
                                         <td class="text-center">{{movimentacao.quantidade_mov}}</td>
                                         <td class="text-center">{{movimentacao.data|date('d/m/Y')}} às {{movimentacao.data|date('H:i')}}</td>
-                
-                
-                                        {% endfor %}
                                     </tr>
+                                    {% endfor %}
                                 </tbody>
-                
                             </table>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
-
-
-
-
         {% endblock %}
     </main>
     {% include 'rodape.html' %}
 </div>
-
 
 {% endblock %}

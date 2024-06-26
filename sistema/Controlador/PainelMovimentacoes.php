@@ -86,7 +86,7 @@ class PainelMovimentacoes extends PainelControlador
         $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (isset($dados)) {
 
-            if ($this->validarMovimentacaoRemover($dados)) {
+            if ($this->validarMovimentacaoRemover($dados, $itemBusca->quantidade)) {
                 $movimentacao = new MovimentacaoModelo();
 
                 $movimentacao->id_item = $itemBusca->id;
@@ -142,9 +142,8 @@ class PainelMovimentacoes extends PainelControlador
         return true;
     }
 
-    public function validarMovimentacaoRemover($dados)
+    public function validarMovimentacaoRemover($dados, $quantidadeDisponivel)
     {
-
         if (empty($dados['quantidade_mov'])) {
             $this->mensagem->alerta('Escreva a quantidade!')->flash();
             return false;
@@ -154,19 +153,25 @@ class PainelMovimentacoes extends PainelControlador
             $this->mensagem->alerta('A quantidade não pode ser igual ou menor que 0')->flash();
             return false;
         }
-
+    
+        if ($dados['quantidade_mov'] > $quantidadeDisponivel) {
+            $this->mensagem->alerta('A quantidade a ser removida excede a quantidade disponível!')->flash();
+            return false;
+        }
+    
         if ($dados['usuario_retirante_id'] == 0) {
             $this->mensagem->alerta('Selecione o Retirante!')->flash();
             return false;
         }
-
+    
         if ($dados['usuario_entregador_id'] == 0) {
             $this->mensagem->alerta('Selecione o Entregador!')->flash();
             return false;
         }
-
+    
         return true;
     }
+    
 
 
     public function movimentacoes($slug)
@@ -221,8 +226,8 @@ class PainelMovimentacoes extends PainelControlador
     public function listar()
     {
         $movimentacoesModelo = new MovimentacaoModelo();
-        $movimentacoes = $movimentacoesModelo->buscaComSlug();  // Chamando diretamente o método buscaComItens
-    
+        $movimentacoes = $movimentacoesModelo->buscaComItens();  // Chamando diretamente o método buscaComItens
+
         echo $this->template->renderizar('movimentacoes.html', [
             'movimentacoes' => $movimentacoes
         ]);

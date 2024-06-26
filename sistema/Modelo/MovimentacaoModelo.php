@@ -19,20 +19,19 @@ class MovimentacaoModelo extends Modelo
 
     public function buscaComItens()
     {
-        $query = "SELECT movimentacoes.*, itens.nome AS item_nome FROM movimentacoes JOIN itens ON movimentacoes.id_item = itens.id ORDER BY movimentacoes.id DESC";
+        $query = "SELECT movimentacoes.*, itens.nome AS item_nome, itens.slug AS item_slug FROM movimentacoes JOIN itens ON movimentacoes.id_item = itens.id ORDER BY movimentacoes.id DESC";
         $stmt = Conexao::getInstancia()->prepare($query);
         $stmt->execute();
         $resultado = $stmt->fetchAll(\PDO::FETCH_OBJ);
 
         return $resultado;
     }
-    public function buscaComSlug()
-    {
-        $query = "SELECT movimentacoes.*, itens.slug AS item_slug FROM movimentacoes JOIN itens ON movimentacoes.id_item = itens.id ORDER BY movimentacoes.id DESC";
-        $stmt = Conexao::getInstancia()->prepare($query);
-        $stmt->execute();
-        $resultado = $stmt->fetchAll(\PDO::FETCH_OBJ);
 
-        return $resultado;
+    public function deletarPorItemId($id_item)
+    {
+        $query = "DELETE FROM movimentacoes WHERE id_item = :id_item";
+        $stmt = Conexao::getInstancia()->prepare($query);
+        $stmt->bindParam(':id_item', $id_item, \PDO::PARAM_INT);
+        return $stmt->execute();
     }
 }

@@ -31,9 +31,11 @@
                 Inativo: <span class="text-danger">{{total.adminInativo}}</span>
             </span>
         </div>
+        {%if usuario().level == 3 %}
         <a href="{{url('dashboard/usuarios/cadastrar')}}" class="btn btn-dark" tooltip="tooltip" title="Cadastrar Usuário">
             Cadastrar
         </a>
+        {%endif%}
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -45,7 +47,9 @@
                         <th>E-mail</th>
                         <th>Level</th>
                         <th>Status</th>
+                        {% if usuario().level == 3 %}
                         <th>Ação</th>
+                        {% endif %}
                     </tr>
                 </thead>
                 <tbody>
@@ -81,8 +85,6 @@
                             </a>
                             
                         </td>
-                        {% else %}
-                        <td>--</td>
                         {% endif %}
 
                         

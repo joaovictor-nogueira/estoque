@@ -25,11 +25,13 @@
                 Inativo: <span class="text-danger">{{total.estoqueInativo}}</span>
             </span>
 
-         
+
         </div>
+        {%if usuario().level == 3 %}
         <a href="{{url('dashboard/itens/cadastrar')}}" class="btn btn-dark" tooltip="tooltip" title="Cadastrar Itens">
             Cadastrar
         </a>
+        {%endif%}
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -41,12 +43,14 @@
                         <th>Nome</th>
                         <th>quantidade</th>
                         <th>Status</th>
+                        {%if usuario().level == 3 %}
                         <th>Ações</th>
+                        {%endif%}
                     </tr>
                 </thead>
                 <tbody>
                     {% for item in itens %}
-                    <tr> 
+                    <tr>
 
                         <td>
                             {% if item.capa %}
@@ -62,10 +66,11 @@
                             <img src="{{url('templates/assets/img/sem-foto.jpg')}}" class="capa" />
                             {% endif %}
                         </td>
-                        <td><a href="{{url('dashboard/item/'~item.slug)}}" class="fw-bold link-underline-dark">{{item.nome}}</a></td>
+                        <td><a href="{{url('dashboard/item/'~item.slug)}}"
+                                class="fw-bold link-underline-dark">{{item.nome}}</a></td>
                         <td>{{item.quantidade}}</td>
-                       
-                        
+
+
                         <td>
                             {% if item.status == 1 %}
                             <i class="fa-solid fa-circle text-success" tooltip="tooltip" title="Ativo"></i>
@@ -74,20 +79,49 @@
                             {% endif %}
                         </td>
 
+                        {%if usuario().level == 3 %}
                         <td>
-                            
+
                             <a class="text-dark m-1" href="{{ url('dashboard/itens/editar/'~item.id)}}"
                                 tooltip="tooltip" title="Editar"><i class="fa-solid fa-pen"></i></a>
 
 
-                            <a class="text-dark" href="{{ url('dashboard/itens/deletar/'~item.id)}}"
-                                tooltip="tooltip" title="Deletar"><i class="fa-solid fa-trash"></i>
+                            <a class="text-dark" href="{{ url('dashboard/itens/deletar/'~item.id)}}" tooltip="tooltip"
+                                title="Deletar" data-bs-toggle="modal" data-bs-target="#exclusaoModal"><i
+                                    class="fa-solid fa-trash"></i>
                             </a>
-                            
+
                         </td>
-
-
                         
+
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exclusaoModal" tabindex="-1" aria-labelledby="exclusaoModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exclusaoModalLabel">Deseja realmente excluir?
+                                        </h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Excluir item e todas suas movimentações?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">fechar</button>
+                                        <a href="{{ url('dashboard/itens/deletar/'~item.id)}}" type="button"
+                                            class="btn btn-danger">Excluir</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {%endif%}
+
+
 
                         {% endfor %}
                     </tr>
@@ -101,26 +135,6 @@
 </div>
 
 
-<!-- MODAL DE EXCLUSÃO -->
-
-<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Exclusão</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Tem certeza de que deseja excluir este item?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-danger" id="confirmDeleteButton">Excluir</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 
 {% endblock %}
