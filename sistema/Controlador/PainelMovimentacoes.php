@@ -221,7 +221,7 @@ class PainelMovimentacoes extends PainelControlador
     public function listar()
     {
         $movimentacoesModelo = new MovimentacaoModelo();
-        $movimentacoes = $movimentacoesModelo->buscaComItens();  // Chamando diretamente o método buscaComItens
+        $movimentacoes = $movimentacoesModelo->buscaComSlug();  // Chamando diretamente o método buscaComItens
     
         echo $this->template->renderizar('movimentacoes.html', [
             'movimentacoes' => $movimentacoes

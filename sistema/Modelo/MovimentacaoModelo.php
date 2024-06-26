@@ -26,4 +26,13 @@ class MovimentacaoModelo extends Modelo
 
         return $resultado;
     }
+    public function buscaComSlug()
+    {
+        $query = "SELECT movimentacoes.*, itens.slug AS item_slug FROM movimentacoes JOIN itens ON movimentacoes.id_item = itens.id ORDER BY movimentacoes.id DESC";
+        $stmt = Conexao::getInstancia()->prepare($query);
+        $stmt->execute();
+        $resultado = $stmt->fetchAll(\PDO::FETCH_OBJ);
+
+        return $resultado;
+    }
 }

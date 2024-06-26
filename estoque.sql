@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 26/06/2024 às 03:24
+-- Tempo de geração: 26/06/2024 às 14:14
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.0.30
 
@@ -44,9 +44,9 @@ CREATE TABLE `itens` (
 INSERT INTO `itens` (`id`, `capa`, `slug`, `nome`, `quantidade`, `quant_min`, `status`) VALUES
 (1, 'copo.jpg', 'copo', 'copo', 1, 3, 1),
 (5, 'prato.jpg', 'prato', 'Prato', 11, 5, 1),
-(6, 'lampada.jpg', 'lampada', 'Lampada', 16, 5, 1),
+(6, 'lampada.jpg', 'lampada', 'Lampada', 13, 5, 1),
 (7, NULL, 'pneu', 'pneu', 0, 1, 1),
-(8, 'teclado-simples.jpg', 'teclado-simples', 'Teclado Simples', 8, 1, 1);
+(8, 'teclado-simples.jpg', 'teclado-simples', 'Teclado Simples', 9, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -100,7 +100,8 @@ INSERT INTO `movimentacoes` (`id`, `id_item`, `usuario_responsavel_id`, `usuario
 (30, 6, NULL, 0, 1, 'saida', 1, '2024-06-25 20:23:07', ''),
 (31, 1, 1, NULL, NULL, 'entrada', 1, '2024-06-25 20:25:15', ''),
 (32, 6, 1, NULL, NULL, 'entrada', 10, '2024-06-25 20:25:48', ''),
-(33, 6, 1, NULL, NULL, 'entrada', 4, '2024-06-25 22:13:08', 'TEste');
+(33, 6, 1, NULL, NULL, 'entrada', 4, '2024-06-25 22:13:08', 'TEste'),
+(35, 6, NULL, 72, 1, 'saida', 3, '2024-06-25 22:44:14', 'Retirada lâmpada para repor quebrada!');
 
 -- --------------------------------------------------------
 
@@ -126,8 +127,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `level`, `nome`, `email`, `senha`, `status`, `ultimo_login`, `cadastrado_em`, `atualizado_em`, `token`) VALUES
-(1, 3, 'João Victor', 'jvdoratioto@gmail.com', '$2y$10$fKzky68FGzkgOsm.PyM3PeIOfZ63Q27GYYS8zBLOuZIw/FlzMN1eK', 1, '2024-06-25 18:31:46', '2024-03-04 10:55:28', '2024-05-08 18:59:01', NULL),
-(2, 1, 'Victor', 'onevictornogueira@gmail.com', '$2y$10$YqUYR3G.zVEHayxzyjKgseTeX0Xm2AmEIo6BtOgikRHVWpTcDwTQ2', 1, '2024-06-24 21:00:42', '2024-06-14 09:33:06', NULL, NULL),
+(1, 3, 'João Victor', 'jvdoratioto@gmail.com', '$2y$10$fKzky68FGzkgOsm.PyM3PeIOfZ63Q27GYYS8zBLOuZIw/FlzMN1eK', 1, '2024-06-25 22:41:28', '2024-03-04 10:55:28', '2024-05-08 18:59:01', NULL),
 (72, 1, 'admin2', 'admin@admin.com', '$2y$10$bnwOdvlms7t9swuxitOwdeio5Nc.Cw0bYwlOoeDZIY8PW033xnAgW', 1, '2024-06-25 22:15:02', '2024-06-24 21:22:13', '2024-06-24 21:25:41', NULL),
 (73, 3, 'Anderson', 'anderson@gmail.com', '$2y$10$VSITWEm7RYHYZF0QqprYcuAYVknWyXu2m0L0rpwHpZ8YNANjRyu8u', 1, NULL, '2024-06-25 22:14:31', NULL, NULL);
 
@@ -168,7 +168,7 @@ ALTER TABLE `itens`
 -- AUTO_INCREMENT de tabela `movimentacoes`
 --
 ALTER TABLE `movimentacoes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
