@@ -37,10 +37,16 @@ class ItensModelo extends Modelo
         return parent::salvar();
     }
 
+    public function buscaPorCodigoBarra(string $codigobarra)
+    {
+        $busca = $this->busca("codigo_barra = :c", "c={$codigobarra}");
+        return $busca->resultado();
+    }
+
     public function ItensAcabando($limite = null)
     {
         // Base da consulta
-        $query = "SELECT * FROM itens WHERE quantidade <= quant_min AND quantidade > 0";
+        $query = "SELECT * FROM itens WHERE quantidade <= quant_min AND quantidade > 0 AND `status` = 1";
 
         // Adiciona a cláusula LIMIT se um limite for fornecido
         if ($limite !== null) {
@@ -62,7 +68,7 @@ class ItensModelo extends Modelo
 
     public function itensAcabados($limite = null)
     {
-        $query = "SELECT * FROM itens WHERE quantidade = 0";
+        $query = "SELECT * FROM itens WHERE quantidade = 0 AND `status` = 1";
 
         // Adiciona a cláusula LIMIT se um limite for fornecido
         if ($limite !== null) {

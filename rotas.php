@@ -27,7 +27,7 @@ try {
     SimpleRouter::get(URL_SITE . 'dashboard/usuarios/deletar/{id}', 'PainelUsuarios@deletar');
 
     //ESTOQUE
-    SimpleRouter::get(URL_SITE . 'dashboard/itens/listar', 'PainelItens@listar');
+    SimpleRouter::match(['get', 'post'], URL_SITE . 'dashboard/itens/listar', 'PainelItens@listar');
     SimpleRouter::match(['get', 'post'], URL_SITE . 'dashboard/itens/cadastrar', 'PainelItens@cadastrar');
     SimpleRouter::match(['get', 'post'], URL_SITE . 'dashboard/itens/editar/{id}', 'PainelItens@editar');
     SimpleRouter::get(URL_SITE . 'dashboard/itens/deletar/{id}', 'PainelItens@deletar');

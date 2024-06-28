@@ -2,17 +2,44 @@
 
 {% block conteudo %}
 <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a href="{{url('dashboard')}}">
-                Dashboard
-            </a>
-        </li>
-        <li class="breadcrumb-item active" aria-current="page">
-            Estoque
-        </li>
-    </ol>
+    <div class="container-fluid">
+        <div class="row align-items-center mb-2">
+            <div class="col-auto">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item">
+                        <a href="{{url('dashboard')}}">
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        Estoque
+                    </li>
+                </ol>
+            </div>
+
+            <div class="col">
+
+                <form action="{{ url('dashboard/itens/listar') }}" id="form_codigo_barra_busca" method="post" class="input-group justify-content-end">
+                    <input type="hidden" class="form-control" id="codigo_barra_busca" name="codigo_barra_busca">
+                    <span class="input-group-text"><button class="btn" type="button" id="btn_camera_busca"><i class="fa-solid fa-camera"></i></button></span>
+                    <span class="input-group-text"><button class="btn" type="button" id="btn_leitor_busca"><i class="fa-solid fa-barcode"></i></button></span>
+                </form>
+
+                <div class="text-end">
+                    <div id="usb_message_busca" class="mt-2" style="display: none; color: orangered;">Aguardando leitura do código de barras...</div>
+                </div>
+                
+            </div>
+
+        </div>
+    </div>
 </nav>
+
+<div class="d-flex justify-content-center">
+    <div class="col-md-5">
+        <div id="interactive_busca" class="viewport" style="display: none;"></div>
+    </div>
+</div>
 
 {{ flash() }}
 
@@ -41,8 +68,9 @@
 
                         <th>Capa</th>
                         <th>Nome</th>
-                        <th>quantidade</th>
-                        <th>Status</th>
+                        <th class="text-center">quantidade</th>
+                        <th class="text-center">Código de Barras</th>
+                        <th class="text-center">Status</th>
                         {%if usuario().level == 3 %}
                         <th>Ações</th>
                         {%endif%}
@@ -68,16 +96,33 @@
                         </td>
                         <td><a href="{{url('dashboard/item/'~item.slug)}}"
                                 class="fw-bold link-underline-dark">{{item.nome}}</a></td>
-                        <td>{{item.quantidade}}</td>
+                        <td class="text-center">{{item.quantidade}}</td>
 
 
-                        <td>
-                            {% if item.status == 1 %}
-                            <i class="fa-solid fa-circle text-success" tooltip="tooltip" title="Ativo"></i>
-                            {% else %}
-                            <i class="fa-solid fa-circle text-danger" tooltip="tooltip" title="Inativo"></i>
-                            {% endif %}
+
+                        {%if item.codigo_barra %}
+                        <td class="text-success text-center">
+                            Cadastrado
                         </td>
+                        {%else%}
+                        <td class="text-danger text-center">
+                            Sem cadastro
+                        </td>
+                        {%endif%}
+
+
+
+                        {% if item.status == 1 %}
+                        <td class="text-success text-center" >
+                            Ativo
+                        </td>
+
+                        {% else %}
+                        <td class="text-danger text-center">
+                            Inativo
+                        </td>
+                        {% endif %}
+
 
                         {%if usuario().level == 3 %}
                         <td>
@@ -92,7 +137,7 @@
                             </a>
 
                         </td>
-                        
+
 
 
                         <!-- Modal -->

@@ -16,6 +16,22 @@ class PainelItens extends PainelControlador
 
     public function listar(): void
     {
+        $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+
+        if (isset($dados['codigo_barra_busca'])) {
+
+            $codigobarra = $dados['codigo_barra_busca'];
+
+            $item = (new ItensModelo())->buscaPorCodigoBarra($codigobarra);
+
+            if ($item) {
+                Helpers::redirecionar("dashboard/item/{$item->slug}");
+            } else {
+                $this->mensagem->alerta('Item não encontrado pelo código de barras informado.')->flash();
+            }
+        }
+
+
         $itens = (new ItensModelo())->busca();
 
 
@@ -45,6 +61,7 @@ class PainelItens extends PainelControlador
                 $item->capa = $this->capa ?? null;
                 $item->quantidade = $dados['quantidade'];
                 $item->quant_min = $dados['quant_min'];
+                $item->codigo_barra = $dados['codigo_barra'];
                 $item->status = $dados['status'];
 
 
@@ -79,6 +96,7 @@ class PainelItens extends PainelControlador
                 $item->nome = $dados['nome'];
                 $item->quantidade = $dados['quantidade'];
                 $item->quant_min = $dados['quant_min'];
+                $item->codigo_barra = $dados['codigo_barra'];
                 $item->status = $dados['status'];
 
 
