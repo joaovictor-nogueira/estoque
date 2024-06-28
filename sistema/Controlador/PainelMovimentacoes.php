@@ -26,6 +26,8 @@ class PainelMovimentacoes extends PainelControlador
             'item' => $item,
             'itemCapa' => $itemBusca->capa,
             'quantidade' => $itemBusca->quantidade,
+            'itemNome' => $itemBusca->nome,
+            'itemCodigoBarra' => $itemBusca->codigo_barra,
             'movimentacoes' => $movimentacoes
         ]);
     }

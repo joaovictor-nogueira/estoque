@@ -85,13 +85,40 @@
 
 
                             <a class="text-dark" href="{{ url('dashboard/usuarios/deletar/'~usuario.id)}}"
-                                tooltip="tooltip" title="Deletar"><i class="fa-solid fa-trash"></i>
+                                tooltip="tooltip" title="Deletar" data-bs-toggle="modal" data-bs-target="#exclusaoModalUsuario"><i class="fa-solid fa-trash" ></i>
                             </a>
                             
                         </td>
                         {% endif %}
 
                         
+
+
+
+
+                         <!-- Modal -->
+                         <div class="modal fade" id="exclusaoModalUsuario" tabindex="-1" aria-labelledby="exclusaoModalUsuarioLabel"
+                         aria-hidden="true">
+                         <div class="modal-dialog">
+                             <div class="modal-content">
+                                 <div class="modal-header">
+                                     <h1 class="modal-title fs-5" id="exclusaoModalUsuarioLabel">Deseja realmente excluir?
+                                     </h1>
+                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                         aria-label="Close"></button>
+                                 </div>
+                                 <div class="modal-body">
+                                     Excluir o Usuário e seus registros de movimentações?
+                                 </div>
+                                 <div class="modal-footer">
+                                     <button type="button" class="btn btn-secondary"
+                                         data-bs-dismiss="modal">fechar</button>
+                                     <a href="{{ url('dashboard/usuarios/deletar/'~usuario.id)}}" type="button"
+                                         class="btn btn-danger">Excluir</a>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
 
                         {% endfor %}
                     </tr>
